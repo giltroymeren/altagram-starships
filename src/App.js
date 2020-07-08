@@ -56,6 +56,7 @@ const App = () => {
         .then(response => {
           const data = response.data;
 
+          document.title = `Starships - Page ${currentPage}`;
           setStarships(data.results);
           setIsLoading(false);
           setPrevButtonState(data.previous === null ? CONSTANTS.disabled : '');
