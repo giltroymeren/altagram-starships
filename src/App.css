@@ -62,3 +62,6 @@ footer button.btn-next {
 footer button.btn-prev {
     background: #F9B31B;
 }
+footer button:disabled {
+    background: #757575;
+}

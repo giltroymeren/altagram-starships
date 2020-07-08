@@ -9,12 +9,13 @@ const CONSTANTS = {
 }
 
 const Starship = ({ name, crew, passengers, hyperdrive}) => {
+  const upperName = name.split(' ').map(c => c.charAt(0).toUpperCase() + c.slice(1)).join(' ');
   return (
     <table className="starship">
       <tbody>
           <tr>
               <td className="heading">Name</td>
-              <td>{name}</td>
+              <td>{upperName}</td>
           </tr>
           <tr>
               <td className="heading">Crew</td>
