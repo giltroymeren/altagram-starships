@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import './App.css';
 
 const CONSTANTS = {
   disabled: 'disabled',
@@ -9,23 +10,25 @@ const CONSTANTS = {
 
 const Starship = ({ name, crew, passengers, hyperdrive}) => {
   return (
-    <table>
+    <table className="starship">
       <tbody>
           <tr>
-              <td>Name</td>
+              <td className="heading">Name</td>
               <td>{name}</td>
           </tr>
           <tr>
-              <td>Crew</td>
+              <td className="heading">Crew</td>
               <td>{crew}</td>
           </tr>
           <tr>
-              <td>Passengers</td>
+              <td className="heading">Passengers</td>
               <td>{passengers === 'n/a' ? 'None' : passengers}</td>
           </tr>
           <tr>
-              <td>Hyperdrive Class</td>
-              <td>{((hyperdrive / 6) * 100).toFixed(2)}%</td>
+              <td className="heading">Hyperdrive Class</td>
+              <td>
+                <progress max="100" value={((hyperdrive / 6) * 100)}></progress>
+              </td>
           </tr>
       </tbody>
 </table>
@@ -60,14 +63,7 @@ const App = () => {
 
   return (
     <div className="App">
-      <footer>
-        <button
-          onClick={() => handlePageClick(CONSTANTS.prev)}
-          disabled={prevButtonState}>Previous</button>
-        <button
-          onClick={() => handlePageClick(CONSTANTS.next)}
-          disabled={nextButtonState}>Next</button>
-      </footer>
+      <div className="list">
       {
         starships.map((ship, index) =>
           <Starship
@@ -77,6 +73,17 @@ const App = () => {
             passengers={ship.passengers}
             hyperdrive={ship.hyperdrive_rating} />)
       }
+      </div>
+      <footer>
+        <button
+          onClick={() => handlePageClick(CONSTANTS.prev)}
+          disabled={prevButtonState}
+          className="btn-prev">Previous</button>
+        <button
+          onClick={() => handlePageClick(CONSTANTS.next)}
+          disabled={nextButtonState}
+          className="btn-next">Next</button>
+      </footer>
     </div>
   );
 }
