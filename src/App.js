@@ -10,6 +10,8 @@ const CONSTANTS = {
 
 const Starship = ({ name, crew, passengers, hyperdrive}) => {
   const upperName = name.split(' ').map(c => c.charAt(0).toUpperCase() + c.slice(1)).join(' ');
+  const computedHyperdrive = (hyperdrive > 0 || !isNaN(hyperdrive)) ? ((hyperdrive / 6) * 100) : 0;
+
   return (
     <table className="starship">
       <tbody>
@@ -19,16 +21,16 @@ const Starship = ({ name, crew, passengers, hyperdrive}) => {
           </tr>
           <tr>
               <td className="heading">Crew</td>
-              <td>{crew}</td>
+              <td>{crew < 1 ? 'None' : crew}</td>
           </tr>
           <tr>
               <td className="heading">Passengers</td>
-              <td>{passengers === 'n/a' ? 'None' : passengers}</td>
+              <td>{(passengers < 1) ? 'None' : passengers}</td>
           </tr>
           <tr>
               <td className="heading">Hyperdrive Class</td>
               <td>
-                <progress max="100" value={((hyperdrive / 6) * 100)}></progress>
+                <progress max="100" value={computedHyperdrive}></progress>
               </td>
           </tr>
       </tbody>
