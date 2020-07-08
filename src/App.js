@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
 
@@ -100,41 +100,38 @@ const data = [
 }
 ];
 
-class App extends React.Component {
+const App = () => {
   // TODO: show API page 1 on load
-  state = {
-    starships: data,
-    currentPage: 1,
-    prevButtonState: '',
-    nextButtonState: '',
+  const [ starships, setStarships ] = useState(data);
+  const [ currentPage, setCurrentPage ] = useState(1);
+  const [ prevButtonState, setPrevButtonState ] = useState('');
+  const [ nextButtonState, setNextButtonState ] = useState('');
+
+  const handlePageClick = (action) => {
+    console.log('action');
   }
 
-  handlePageClick = (action) => {
-  }
-
-  render() {
-    return (
-      <div className="App">
-        <footer>
-          <button
-            onClick={() => this.handlePageClick('prev')}
-            disabled={this.state.prevButtonState}>Previous</button>
-          <button
-            onClick={() => this.handlePageClick('next')}
-            disabled={this.state.nextButtonState}>Next</button>
-        </footer>
-        {
-          this.state.starships.map((ship, index) =>
-            <Starship
-              key={index}
-              name={ship.name}
-              crew={ship.crew}
-              passengers={ship.passengers}
-              hyperdrive={ship.hyperdrive_rating} />)
-        }
-      </div>
-    );
-  }
+  return (
+    <div className="App">
+      <footer>
+        <button
+          onClick={() => handlePageClick('prev')}
+          disabled={prevButtonState}>Previous</button>
+        <button
+          onClick={() => handlePageClick('next')}
+          disabled={nextButtonState}>Next</button>
+      </footer>
+      {
+        starships.map((ship, index) =>
+          <Starship
+            key={index}
+            name={ship.name}
+            crew={ship.crew}
+            passengers={ship.passengers}
+            hyperdrive={ship.hyperdrive_rating} />)
+      }
+    </div>
+  );
 }
 
 export default App;
