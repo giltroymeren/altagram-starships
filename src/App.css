@@ -64,4 +64,5 @@ footer button.btn-prev {
 }
 footer button:disabled {
     background: #757575;
+    cursor: not-allowed;
 }
