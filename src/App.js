@@ -30,20 +30,31 @@ const Starship = ({ name, crew, passengers, hyperdrive}) => {
 class App extends React.Component {
   state = {
     starships: [],
-    current: 1
+    current: 1,
+    prevButtonState: '',
+    nextButtonState: '',
   }
 
   // method to handle call to pages
   // NOTE: do we need async-await here?
   handlePageClick = (action) => {
     const pageNumber = (action === 'next') ? this.state.current + 1 : this.state.current - 1;
+
+    if(pageNumber < 1) {
+      this.setState({ prevButtonState: 'disabled' });
+      return;
+    }
+
     this.setState({ current: pageNumber });
 
     axios.get(`https://swapi.dev/api/starships/?page=${pageNumber}`)
       .then(response => {
         const data = response.data.results;
         console.log(data);
-        this.setState({ starships: data });
+        this.setState({
+          starships: data,
+          prevButtonState: ''
+        });
       })
       .catch(error => {
         console.log(`Message: ${error}`);
@@ -63,8 +74,12 @@ class App extends React.Component {
               hyperdrive={ship.hyperdrive_rating} />)
         }
         <footer>
-          <button onClick={() => this.handlePageClick('prev')}>Previous</button>
-          <button onClick={() => this.handlePageClick('next')}>Next</button>
+          <button
+            onClick={() => this.handlePageClick('prev')}
+            disabled={this.state.prevButtonState}>Previous</button>
+          <button
+            onClick={() => this.handlePageClick('next')}
+            disabled={this.state.nextButtonState}>Next</button>
         </footer>
       </div>
     );
