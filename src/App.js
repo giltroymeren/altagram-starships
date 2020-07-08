@@ -1,6 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
+const CONSTANTS = {
+  disabled: 'disabled',
+  next: 'next',
+  prev: 'previous'
+}
 
 const Starship = ({ name, crew, passengers, hyperdrive}) => {
   return (
@@ -28,37 +33,39 @@ const Starship = ({ name, crew, passengers, hyperdrive}) => {
 }
 
 const App = () => {
-  // TODO: show API page 1 on load
   const [ starships, setStarships ] = useState([]);
   const [ currentPage, setCurrentPage ] = useState(1);
+  const [ isLoading, setIsLoading ] = useState(true);
   const [ prevButtonState, setPrevButtonState ] = useState('');
   const [ nextButtonState, setNextButtonState ] = useState('');
 
   const handlePageClick = (action) => {
-    console.log('action');
+    setIsLoading(true);
+    setCurrentPage((action === CONSTANTS.next) ? currentPage + 1 : currentPage - 1);
   }
 
   useEffect(() => {
-    console.log(`CALLED: https://swapi.dev/api/starships/?page=${currentPage}`);
-    axios.get(`https://swapi.dev/api/starships/?page=${currentPage}`)
-      .then(response => {
-        const data = response.data;
-        console.log(data);
+    if(isLoading) {
+      axios.get(`https://swapi.dev/api/starships/?page=${currentPage}`)
+        .then(response => {
+          const data = response.data;
 
-        setStarships(data.results);
-        setPrevButtonState(data.previous === null ? 'disabled' : '');
-        setNextButtonState(data.next ? '' : 'disabled');
-      });
+          setStarships(data.results);
+          setIsLoading(false);
+          setPrevButtonState(data.previous === null ? CONSTANTS.disabled : '');
+          setNextButtonState(data.next ? '' : CONSTANTS.disabled);
+        });
+    }
   });
 
   return (
     <div className="App">
       <footer>
         <button
-          onClick={() => handlePageClick('prev')}
+          onClick={() => handlePageClick(CONSTANTS.prev)}
           disabled={prevButtonState}>Previous</button>
         <button
-          onClick={() => handlePageClick('next')}
+          onClick={() => handlePageClick(CONSTANTS.next)}
           disabled={nextButtonState}>Next</button>
       </footer>
       {
