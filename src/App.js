@@ -28,9 +28,10 @@ const Starship = ({ name, crew, passengers, hyperdrive}) => {
 }
 
 class App extends React.Component {
+  // TODO: default page 1 in state
   state = {
     starships: [],
-    current: 1,
+    currentPage: 1,
     prevButtonState: '',
     nextButtonState: '',
   }
@@ -38,16 +39,17 @@ class App extends React.Component {
   // method to handle call to pages
   // NOTE: do we need async-await here?
   handlePageClick = (action) => {
-    const pageNumber = (action === 'next') ? this.state.current + 1 : this.state.current - 1;
-
-    if(pageNumber < 1) {
+    const nextPage = (action === 'next') ? this.state.currentPage + 1 : this.state.currentPage - 1;
+    console.log(`ACTION: ${action}, CURRENT: ${this.state.currentPage}, NEXT: ${nextPage}`);
+    this.setState({ currentPage: nextPage });
+    if(nextPage < 1) {
       this.setState({ prevButtonState: 'disabled' });
       return;
     }
 
-    this.setState({ current: pageNumber });
-
-    axios.get(`https://swapi.dev/api/starships/?page=${pageNumber}`)
+    // TODO: disabled next button if 404
+    console.log(`CALLED: https://swapi.dev/api/starships/?page=${nextPage}`);
+    axios.get(`https://swapi.dev/api/starships/?page=${nextPage}`)
       .then(response => {
         const data = response.data.results;
         console.log(data);
