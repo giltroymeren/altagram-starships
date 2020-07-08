@@ -32,13 +32,15 @@ class App extends React.Component {
     starships: []
   }
 
-  componentDidMount() {
+  // method to handle call to pages
+  // NOTE: do we need async-await here?
+  getStarshipsPage = (page) => {
     axios.get(`https://swapi.dev/api/starships/`)
       .then(response => {
         const data = response.data.results;
         console.log(data);
         this.setState({ starships: data });
-      })
+      });
   }
 
   render() {
@@ -53,6 +55,10 @@ class App extends React.Component {
               passengers={ship.passengers}
               hyperdrive={ship.hyperdrive_rating} />)
         }
+        <footer>
+          <button>Previous</button>
+          <button>Next</button>
+        </footer>
       </div>
     );
   }
