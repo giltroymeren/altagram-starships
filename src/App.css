@@ -8,13 +8,13 @@ body {
     font-size: 1.5em;
 }
 
-.App {
+.row {
     margin: 0 auto;
     width: 50%;
 }
 
 .list {
-    margin-bottom: 50px;
+    margin: 0 auto;
 }
 .list .starship {
     margin: 20px 0;

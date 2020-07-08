@@ -66,7 +66,7 @@ const App = () => {
 
   return (
     <div className="App">
-      <div className="list">
+      <div className="list row">
       {
         starships.map((ship, index) =>
           <Starship
@@ -78,14 +78,16 @@ const App = () => {
       }
       </div>
       <footer>
-        <button
-          onClick={() => handlePageClick(CONSTANTS.prev)}
-          disabled={prevButtonState}
-          className="btn-prev">Previous</button>
-        <button
-          onClick={() => handlePageClick(CONSTANTS.next)}
-          disabled={nextButtonState}
-          className="btn-next">Next</button>
+        <div className="row">
+          <button
+            onClick={() => handlePageClick(CONSTANTS.prev)}
+            disabled={prevButtonState}
+            className="btn-prev">Previous</button>
+          <button
+            onClick={() => handlePageClick(CONSTANTS.next)}
+            disabled={nextButtonState}
+            className="btn-next">Next</button>
+        </div>
       </footer>
     </div>
   );
